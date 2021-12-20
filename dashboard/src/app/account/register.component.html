@@ -1,0 +1,161 @@
+﻿
+<div class="card">
+    <h4 class="card-header">Register</h4>
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">  
+                <label for="firstName"> First Name</label>  
+                <input formControlName="firstName" id="firstName" type="text" class="form-control" (keypress)="keyPressAlphaNumeric($event)">  
+                <div *ngIf="f.firstName.touched && f.firstName.invalid" class="alert alert-danger">  
+                    <div *ngIf="f.firstName.errors.required">First Name is required.</div>  
+                    <div *ngIf="f.firstName.errors.pattern">Please, Enter only alphabets in Firstname.</div> 
+                    <div *ngIf="f.firstName.errors.cannotContainSpace">Firstname can not contain space.</div>
+                </div>  
+            </div>  
+            <div class="form-group">  
+                <label for="lastName">Last Name</label>  
+                <input formControlName="lastName" id="lastName" type="text" class="form-control" (keypress)="keyPressAlphaNumeric($event)">  
+                <div *ngIf="f.lastName.touched && f.lastName.invalid" class="alert alert-danger">  
+                    <div *ngIf="f.lastName.errors.required">Last Name is required.</div>  
+                    <div *ngIf="f.lastName.errors.pattern">Please, Enter only alphabets in Lastname.</div> 
+                    <div *ngIf="f.lastName.errors.cannotContainSpace">Lastname can not contain space.</div> 
+                </div>  
+            </div>  
+
+            <div class="form-group">
+                <label class="col-md-4">Username</label>
+                <input type="text" class="form-control" formControlName="username" #username (change)="usernameCheckUnique()" (keypress)="keyPressAlphaNumeric($event)" />
+            </div>
+              <div *ngIf="form.controls['username'].invalid && (form.controls['username'].dirty || form.controls['username'].touched)" class="alert alert-danger">
+                <div *ngIf="form.controls['username'].errors.required">
+                  Username is required.
+                </div>
+                <div *ngIf="form.controls['username'].errors.username">
+                  Enter Valid Username
+                </div>
+            </div>  
+  
+              <div *ngIf="usernameAlredyExist != ''" class="alert alert-danger">
+                {{usernameAlredyExist}} 
+              </div>   
+
+            
+            <div class="form-group">  
+                <label for="email">Email</label>  
+                <input formControlName="email" id="email" type="text" class="form-control">  
+                <div *ngIf="f.email.touched && f.email.invalid" class="alert alert-danger">  
+                    <div *ngIf="f.email.errors.required">Email is required</div>  
+                    <div *ngIf="f.email.errors.pattern">Email must be a valid email address</div> 
+                    <div *ngIf="f.email.errors.cannotContainSpace">Email can not contain space.</div>  
+                </div>  
+            </div>
+
+            <div class="form-group">  
+                <label for="phoneno">Mobile Number</label>  
+                <input formControlName="phoneno" id="phoneno" type="text" class="form-control" (keypress)="keyPressNumbers($event)">  
+                <div *ngIf="f.phoneno.touched && f.phoneno.invalid" class="alert alert-danger">  
+                    <div *ngIf="f.phoneno.errors.required">Mobile Number is required.</div>  
+                    <div *ngIf="f.phoneno.errors.pattern">Please, Enter 10 digit Mobile Number.</div> 
+                    <div *ngIf="f.phoneno.errors.cannotContainSpace">PhoneNo can not contain space.</div>  
+                </div>  
+            </div>  
+
+        <!--<div class="form-group">
+            <label>Password</label>
+            <div class="input-group">
+                <input  [type]="password" class="form-control" formControlName="password" />
+                <div class="input-group-append">
+                  <span class="input-group">
+                        <button (click)="onClick()" >
+                            <i class="fa fa-eye" aria-hidden="true" *ngIf="!show"></i>
+                            <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div *ngIf="f.password.touched && f.password.invalid" class="alert alert-danger"> 
+                <div *ngIf="f.password.errors.required">Password is required</div>
+                <div *ngIf="f.password.errors.minlength">Password must be at least 8 characters</div>
+                <div *ngIf="f.password.errors.pattern">Password should contain one upper case,one lower case,atleast one number and one special character.</div> 
+            </div>
+        </div>-->  
+
+
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-group">
+               <input id="password" formControlName="password" [type]="password" class="form-control">
+                <div class="input-group-append">
+                  <span class="input-group">
+                        <button (click)="onClick()" >
+                            <i class="fa fa-eye" aria-hidden="true" *ngIf="!show"></i>
+                            <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div *ngIf="f.password.touched && f.password.invalid" class="alert alert-danger"> 
+                
+                    <label class="col" [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('minlength')  ? 'text-danger' : 'text-success'">
+                    <i class="material-icons">{{ form.controls['password'].hasError('required') ||
+                        form.controls['password'].hasError('minlength') ? 'cancel' :
+                        'check_circle' }}</i>
+                    Must be at least 8 characters!
+                    </label>
+                    <label class="col" [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasNumber')  ? 'text-danger' : 'text-success'">
+                    <i class="material-icons">{{ form.controls['password'].hasError('required') ||
+                        form.controls['password'].hasError('hasNumber') ? 'cancel' :
+                        'check_circle' }}</i>
+                    Must contain at least 1 number!
+                    </label>
+                    <label class="col" [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
+                    <i class="material-icons">{{ form.controls['password'].hasError('required') ||
+                        form.controls['password'].hasError('hasCapitalCase') ? 'cancel' :
+                        'check_circle' }}</i>
+                    Must contain at least 1 in Capital Case!
+                    </label>
+                    <label class="col" [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
+                    <i class="material-icons">{{ form.controls['password'].hasError('required') ||
+                        form.controls['password'].hasError('hasSmallCase') ? 'cancel' :
+                        'check_circle' }}</i>
+                    Must contain at least 1 Letter in Small Case!
+                    </label>
+                    <label class="col" [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
+                    <i class="material-icons">{{ form.controls['password'].hasError('required') ||
+                        form.controls['password'].hasError('hasSpecialCharacters') ? 'cancel' :
+                        'check_circle' }}</i>
+                    Must contain at least 1 Special Character!
+                    </label>
+        
+                </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <div class="input-group">
+                <input  [type]="confirmPassword" class="form-control" formControlName="confirmPassword" />
+                <div class="input-group-append">
+                  <span class="input-group">
+                        <button (click)="onClick2()" >
+                            <i class="fa fa-eye" aria-hidden="true" *ngIf="!show1"></i>
+                            <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="show1"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div *ngIf="f.confirmPassword.touched && f.confirmPassword.invalid" class="alert alert-danger"> 
+                <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+            </div>
+        </div>  
+            
+        <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary">Register</button>
+                <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                <a routerLink="/login" class="btn btn-link">Cancel</a>
+            </div>
+        </form>
+        

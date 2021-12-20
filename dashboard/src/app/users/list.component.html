@@ -1,0 +1,38 @@
+﻿
+<section id="profile">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-10 mx-auto">
+
+                <div>
+                        <img src="assets/{{user.image}}" onerror="this.src='assets/Default.jpg'"
+                        style= "height: 150px; width: 150px; left: 50%; border-radius: 50%; margin-left: 35% " alt="">
+                 </div>  &nbsp;&nbsp; 
+
+                 <div style="text-align:center">
+                    <a routerLink="password/" class="btn btn-danger">Change Password</a>
+                    </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-text">
+                        
+                            <h6>Name : {{user.firstName}} {{user.lastName}} </h6>
+                            <h6>Username : {{user.username}}</h6>
+                            <h6>Country : {{user.country}}</h6>
+                            <h6>City : {{user.city}}</h6>
+                            <h6>Email : {{user.email}}</h6>
+                            <h6>Phone : {{user.phoneno}}</h6>
+                            <h6>Gender : {{user.gender}}</h6>
+                            <h6>Hobbie : {{user.hobbie}}</h6>
+                           
+                            
+                        </div>
+                    </div>
+                   <!--{{user.id}}-->
+                    <a routerLink="edit/" class="btn btn-sm btn-primary mr-11">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

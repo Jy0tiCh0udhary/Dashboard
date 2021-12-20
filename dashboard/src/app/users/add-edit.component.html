@@ -1,0 +1,159 @@
+﻿<h3>Edit User</h3>
+<form *ngIf='formData' [formGroup]="form" (ngSubmit)="onSubmit()">
+    
+    <div >
+        <div>
+            <img src="assets/{{form.value.image}}" onerror="this.src='assets/Default.jpg'"
+            style= "height: 150px; width: 150px; left: 50%; border-radius: 50%; margin-left: 35% " alt="">
+        </div>  &nbsp;&nbsp;
+    
+        <label for="image">Upload Image :</label>&nbsp;&nbsp;
+        <input type="file"  name="image" (change)="selectImage($event)" />
+        <br>
+   </div>&nbsp;&nbsp;
+
+
+
+
+
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="firstName"> First Name</label>  
+            <input formControlName="firstName" id="firstName" type="text" class="form-control">  
+            <div *ngIf="f.firstName.touched && f.firstName.invalid" class="alert alert-danger">  
+                <div *ngIf="f.firstName.errors.required">First Name is required.</div>  
+                <div *ngIf="f.firstName.errors.pattern">Please, Enter only alphabets in Firstname.</div>  
+            </div>  
+        </div>  
+        <div class="form-group col"> 
+            <label for="lastName">Last Name</label>  
+            <input formControlName="lastName" id="lastName" type="text" class="form-control">  
+            <div *ngIf="f.lastName.touched && f.lastName.invalid" class="alert alert-danger">  
+                <div *ngIf="f.lastName.errors.required">Last Name is required.</div>  
+                <div *ngIf="f.lastName.errors.pattern">Please, Enter only alphabets in Lastname.</div>  
+            </div>  
+        </div>    
+    </div>  
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="username">Username</label>
+                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div>
+        </div>
+
+    <div class="form-group col">
+            <label for="email">Email</label>  
+            <input formControlName="email" id="email" type="text" class="form-control">  
+            <div *ngIf="f.email.touched && f.email.invalid" class="alert alert-danger">  
+                <div *ngIf="f.email.errors.required">Email is required</div>  
+                <div *ngIf="f.email.errors.pattern">Email must be a valid email address</div>  
+            </div>  
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="phoneno">Mobile Number</label>  
+            <input formControlName="phoneno" id="phoneno" type="text" class="form-control">  
+            <div *ngIf="f.phoneno.touched && f.phoneno.invalid" class="alert alert-danger">  
+                <div *ngIf="f.phoneno.errors.required">Mobile Number is required.</div>  
+                <div *ngIf="f.phoneno.errors.pattern">Please, Enter 10 digit Mobile Number.</div>  
+            </div>  
+    </div>
+
+        
+
+        <!--<div class="form-group col">
+            <div class="form-group ">   
+                <label for="company">State</label>  
+                <select  class="form-control"  formControlName="country" (change)="changeCountry($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.country.errors }">  
+                        <option value="">--Select--</option>  
+                        <option *ngFor="let count of states" value={{count.name}}>  
+                            {{count.name}} 
+                        </option>  
+                </select>  
+                <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                    <div *ngIf="f.country.errors?.required">State is required</div> 
+                </div> 
+            </div>  
+            <div class="form-group">   
+
+                <label for="company">City</label>  
+                <select  class="form-control" formControlName="city">  
+                            <option value="">--Select--</option>  
+                            <option *ngFor="let city of cities" value={{city.city}}>  
+                                {{city.city}} 
+                            </option>  
+                </select>  
+            </div>  
+        </div>
+    </div>-->
+      
+            <div class="form-group col">
+                <div class="form-group ">   
+                    <label for="company">State</label>  
+                    <select  class="form-control"  formControlName="country" (change)="changeCountry($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.country.errors }">  
+                            <option value="">--Select--</option>  
+                            <option *ngFor="let count of states" value={{count.name}}>  
+                                {{count.name}} 
+                            </option>  
+                    </select>  
+                    <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                        <div *ngIf="f.country.errors?.required">State is required</div> 
+                    </div> 
+                </div>  
+                <div class="form-group">   
+
+                    <label for="company">City</label>  
+                    <ejs-multiselect  class="form-control" mode='default' [dataSource]='cities' [fields]='fields' formControlName="city">  
+                            
+                    </ejs-multiselect> 
+                </div>  
+            </div>
+        </div>
+
+    
+
+    <div class="form-group">  
+        <label for="hobbie">Hobbies :</label>&nbsp;&nbsp;
+     
+        <label>  
+            <input type="radio" formControlName="consent" name="notification"  value="yes" (click)="setradio('yes')">  
+            Yes  
+        </label>&nbsp;&nbsp;  
+    
+     
+        <label>  
+            <input type="radio" formControlName="consent"  name="notification" value="no" (click)="setradio('no')">  
+            No 
+        </label>  
+    
+        <div *ngIf="isSelected('yes') || form.value.consent == 'yes'" >
+                <input type="text" formControlName="hobbie" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.hobbie.errors }" />  
+                <div *ngIf="submitted && f.hobbie.errors" class="invalid-feedback">
+                    <div *ngIf="f.hobbie.errors.required">Hobbie is required</div>
+                </div>
+            </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="gender">Gender :</label>&nbsp;&nbsp;
+            <input type="radio" formControlName="gender" value= "male" [ngClass]="{ 'is-invalid': submitted && f.gender.errors }"/>Male&nbsp;&nbsp;
+            <input type="radio" formControlName="gender" value="female" [ngClass]="{ 'is-invalid': submitted && f.gender.errors }"/>Female&nbsp;&nbsp;
+            <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                <div *ngIf="f.gender.errors?.required">Gender is required</div> 
+            </div>                     
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Save
+            </button>
+          <a routerLink="/users" class="btn btn-link">Cancel</a>
+      </div>
+    </div>
+</form>
